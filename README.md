@@ -1,0 +1,2 @@
+# memecoin.com
+memecoin
