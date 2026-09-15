@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MemeCoin Insights · glass articles</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 30% 10%, #f0f4ff 0%, #d9e2f0 100%);
+      background-attachment: fixed;
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    /* ========== ЧАСТИЦЫ ========== */
+    .particles {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0; overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 0 0 20px rgba(200, 220, 255, 0.6);
+      animation: floatParticle linear infinite;
+    }
+
+    @keyframes floatParticle {
+      0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.7; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-120vh) translateX(40px) scale(1.2); opacity: 0; }
+    }
+
+    /* ========== БОКОВАЯ ПАНЕЛЬ TELEGRAM ========== */
+    .telegram-sidebar {
+      position: fixed;
+      top: 50%;
+      right: 1.5rem;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      padding: 1.2rem 1rem;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(18px) saturate(180%);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+      align-items: center;
+    }
+
+    .telegram-sidebar .sidebar-label {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1c3153;
+      margin: 0.3rem 0 0.6rem;
+      opacity: 0.85;
+      transform: rotate(180deg);
+    }
+
+    .telegram-sidebar a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      color: #229ED9;
+      font-size: 1.25rem;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+      position: relative;
+    }
+
+    .telegram-sidebar a:hover {
+      transform: scale(1.12);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 10px 24px rgba(34, 158, 217, 0.25);
+    }
+
+    .telegram-sidebar a.telegram-main {
+      background: linear-gradient(135deg, #229ED9, #1b7db0);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .telegram-sidebar a.telegram-main:hover {
+      background: linear-gradient(135deg, #2ab0e8, #229ED9);
+      box-shadow: 0 10px 24px rgba(34, 158, 217, 0.5);
+    }
+
+    .telegram-sidebar a::after {
+      content: attr(data-tip);
+      position: absolute;
+      right: 110%;
+      top: 50%;
+      transform: translateY(-50%) scale(0.9);
+      background: rgba(15, 31, 56, 0.92);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.4rem 0.8rem;
+      border-radius: 10px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .telegram-sidebar a:hover::after {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
+
+    /* ========== ГЛАВНЫЙ КОНТЕЙНЕР ========== */
+    .glass-wrapper {
+      position: relative; z-index: 10;
+      width: 100%; max-width: 1000px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-radius: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+      padding: 2.5rem 2rem;
+    }
+
+    /* ========== СТРОКА ПОИСКА ========== */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 1.8rem;
+      z-index: 60;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 60px;
+      padding: 0.7rem 1.4rem;
+      box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+      transition: box-shadow 0.2s, background 0.2s;
+    }
+
+    .search-box:focus-within {
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 12px 35px -8px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(63, 94, 140, 0.25) inset;
+    }
+
+    .search-box i.fa-search {
+      color: #3f5e8c;
+      font-size: 1rem;
+    }
+
+    .search-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      color: #0f1f38;
+      padding: 0.35rem 0;
+      font-weight: 500;
+    }
+
+    .search-box input::placeholder {
+      color: #5a6b8c;
+      opacity: 0.8;
+      font-weight: 400;
+    }
+
+    .search-clear {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      width: 28px; height: 28px; border-radius: 50%;
+      cursor: pointer; display: none;
+      align-items: center; justify-content: center;
+      color: #3f5e8c; font-size: 0.75rem;
+      transition: background 0.2s;
+    }
+    .search-clear:hover { background: rgba(255, 255, 255, 0.95); }
+    .search-clear.visible { display: flex; }
+
+    /* ========== ПОДСКАЗКИ ========== */
+    .suggestions {
+      position: absolute;
+      top: calc(100% + 0.6rem);
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.18);
+      padding: 0.6rem;
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+      animation: suggIn 0.2s ease;
+    }
+
+    .suggestions.active { display: block; }
+
+    @keyframes suggIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .suggestion-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.7rem 0.9rem;
+      border-radius: 18px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border: 1px solid transparent;
+    }
+
+    .suggestion-item:hover,
+    .suggestion-item.selected {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(255, 255, 255, 1);
+    }
+
+    .suggestion-thumb {
+      width: 52px; height: 52px; border-radius: 14px;
+      overflow: hidden; flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      background: rgba(200, 215, 240, 0.3);
+    }
+
+    .suggestion-thumb img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+
+    .suggestion-info {
+      flex: 1; min-width: 0;
+    }
+
+    .suggestion-title {
+      font-size: 0.95rem; font-weight: 700;
+      color: #0f1f38; line-height: 1.3;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 0.2rem;
+    }
+
+    .suggestion-title mark {
+      background: rgba(255, 220, 100, 0.75);
+      color: #0f1f38;
+      padding: 0 2px;
+      border-radius: 3px;
+    }
+
+    .suggestion-tag {
+      font-size: 0.72rem; font-weight: 600;
+      color: #3f5e8c; text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .suggestion-arrow {
+      color: #3f5e8c; font-size: 0.85rem;
+      opacity: 0.6;
+    }
+
+    .suggestion-empty {
+      padding: 1.4rem 1rem;
+      text-align: center;
+      color: #5a6b8c;
+      font-size: 0.92rem;
+    }
+
+    .suggestion-empty i {
+      display: block;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.5;
+    }
+
+    /* ========== БАННЕР СВЕРХУ ========== */
+    .banner {
+      width: 100%;
+      border-radius: 32px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+      background: rgba(200, 215, 240, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .banner img {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-height: 340px;
+      object-fit: cover;
+    }
+
+    /* ========== ЗАГОЛОВОК ========== */
+    .site-header {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      margin-bottom: 2rem; padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .logo h1 {
+      font-size: 2.2rem; font-weight: 700; letter-spacing: -0.02em;
+      color: #0b1e3a; text-shadow: 0 2px 10px rgba(255, 255, 255, 0.6);
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, #2b3b5c, #4f6b9b);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px);
+      padding: 0.5rem 1.4rem; border-radius: 60px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      font-weight: 500; color: #1e2f4a;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); font-size: 0.9rem;
+    }
+    .badge i { color: #3f5e8c; margin-right: 6px; }
+
+    /* ========== СТАТЬЯ ========== */
+    .article {
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-radius: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+      padding: 2rem 1.8rem 2.2rem;
+      margin-bottom: 2.2rem;
+      transition: transform 0.25s ease, box-shadow 0.3s ease, background 0.3s ease;
+      scroll-margin-top: 2rem;
+    }
+
+    .article:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 30px 45px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    .article.highlight {
+      animation: highlightPulse 2.2s ease;
+    }
+
+    @keyframes highlightPulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 200, 60, 0.85), 0 20px 35px -10px rgba(0, 0, 0, 0.1); }
+      30% { box-shadow: 0 0 0 14px rgba(255, 200, 60, 0.35), 0 20px 35px -10px rgba(0, 0, 0, 0.1); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 200, 60, 0), 0 20px 35px -10px rgba(0, 0, 0, 0.1); }
+    }
+
+    .article-media {
+      width: 100%;
+      height: 300px;
+      border-radius: 24px;
+      overflow: hidden;
+      margin-bottom: 1.4rem;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      background: rgba(200, 215, 240, 0.3);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .article-media img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+
+    .article-tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.55);
+      padding: 0.35rem 1.1rem; border-radius: 60px;
+      font-size: 0.75rem; font-weight: 700; color: #1c3153;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      margin-bottom: 0.9rem;
+    }
+
+    .article h2 {
+      font-size: 1.85rem; font-weight: 700; color: #0b1e3a;
+      margin-bottom: 1rem; line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .article p {
+      font-size: 1.02rem; line-height: 1.8; color: #1e2f4a;
+      margin-bottom: 1.1rem;
+    }
+
+    .article h4 {
+      font-size: 1.15rem; font-weight: 700; color: #0f1f38;
+      margin: 1.5rem 0 0.7rem;
+    }
+
+    .article ul {
+      margin: 0.6rem 0 1.2rem 1.4rem;
+      color: #1e2f4a; line-height: 1.8;
+    }
+    .article ul li { margin-bottom: 0.4rem; }
+    .article ul li strong { color: #0b1e3a; }
+
+    /* ========== KEY TAKEAWAYS ========== */
+    .takeaways {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      border-radius: 28px;
+      padding: 1.8rem 2rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .takeaways-inner {
+      display: flex; flex-wrap: wrap; align-items: center;
+      gap: 0.8rem 1.8rem; justify-content: space-between;
+    }
+
+    .takeaways-title { display: flex; align-items: center; gap: 12px; }
+    .takeaways-title i { font-size: 1.8rem; color: #2b3b5c; }
+    .takeaways-title span { font-weight: 700; font-size: 1.3rem; color: #0f1f38; }
+
+    .takeaways-stats { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+    .takeaways-stats span {
+      background: rgba(255,255,255,0.5); padding: 0.3rem 1.1rem;
+      border-radius: 30px; font-size: 0.9rem; color: #1e2f4a;
+    }
+    .takeaways-stats i { margin-right: 5px; color: #3f5e8c; }
+
+    /* ========== ФУТЕР ========== */
+    .site-footer {
+      margin-top: 2rem; padding-top: 1.5rem; text-align: center;
+      color: #1e2f4a; font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.7);
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 2rem; align-items: center;
+    }
+    .site-footer i { margin-right: 6px; color: #3f5e8c; }
+
+    .creator-badge {
+      background: rgba(255, 255, 255, 0.65); padding: 0.6rem 1.6rem;
+      border-radius: 60px; border: 1px solid rgba(255, 255, 255, 0.95);
+      font-weight: 600; color: #0f1f38;
+      display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04); font-size: 0.98rem;
+    }
+    .creator-badge i { color: #3f5e8c; font-size: 1rem; margin-right: 0; }
+    .creator-badge strong {
+      background: linear-gradient(135deg, #2b3b5c, #4f6b9b);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      font-weight: 700;
+    }
+
+    /* ========== АДАПТИВ ========== */
+    @media (max-width: 1100px) {
+      .telegram-sidebar { right: 0.6rem; padding: 1rem 0.7rem; }
+      .telegram-sidebar a { width: 40px; height: 40px; font-size: 1.1rem; }
+    }
+
+    @media (max-width: 680px) {
+      body { padding: 1rem 0.8rem; }
+      .glass-wrapper { padding: 1.4rem 1rem; border-radius: 32px; }
+      .banner { border-radius: 22px; margin-bottom: 1.4rem; }
+      .banner img { max-height: 200px; }
+      .logo h1 { font-size: 1.6rem; }
+      .article { padding: 1.4rem 1.1rem 1.6rem; border-radius: 24px; }
+      .article-media { height: 200px; }
+      .article h2 { font-size: 1.4rem; }
+      .article p { font-size: 0.97rem; }
+      .takeaways { padding: 1.2rem; }
+      .takeaways-title span { font-size: 1.1rem; }
+      .site-header { margin-bottom: 1.4rem; }
+
+      .search-box { padding: 0.6rem 1.1rem; }
+      .search-box input { font-size: 0.95rem; }
+      .suggestion-thumb { width: 44px; height: 44px; }
+      .suggestion-title { font-size: 0.88rem; }
+
+      .telegram-sidebar {
+        top: auto; bottom: 0.8rem; right: 50%;
+        transform: translateX(50%);
+        flex-direction: row;
+        padding: 0.7rem 1rem;
+        border-radius: 60px;
+        gap: 0.6rem;
+      }
+      .telegram-sidebar .sidebar-label {
+        writing-mode: horizontal-tb;
+        transform: none;
+        margin: 0 0.4rem 0 0;
+        font-size: 0.65rem;
+      }
+      .telegram-sidebar a { width: 38px; height: 38px; font-size: 1rem; }
+      .telegram-sidebar a::after { display: none; }
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(220, 230, 250, 0.4); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.8); border-radius: 10px; border: 1px solid rgba(180, 200, 240, 0.6); }
+  </style>
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+
+  <!-- ========== БОКОВАЯ ПАНЕЛЬ TELEGRAM ========== -->
+  <aside class="telegram-sidebar" aria-label="Developer Telegram links">
+    <span class="sidebar-label">Developer</span>
+
+    <a href="https://t.me/liminalproject" target="_blank" rel="noopener"
+       class="telegram-main" data-tip="Telegram Channel" title="Telegram Channel">
+      <i class="fab fa-telegram-plane"></i>
+    </a>
+
+    <a href="https://t.me/liminalproject/6" target="_blank" rel="noopener"
+       data-tip="Cooperation" title="Cooperation">
+      <i class="fas fa-handshake"></i>
+    </a>
+  </aside>
+
+  <div class="glass-wrapper">
+
+    <!-- ===== СТРОКА ПОИСКА ===== -->
+    <div class="search-wrap">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search articles… (try: Solana, Pepe, Doge, Psychology)" autocomplete="off">
+        <button class="search-clear" id="searchClear" aria-label="Clear search">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="suggestions" id="suggestions"></div>
+    </div>
+
+    <!-- ===== БАННЕР СВЕРХУ ===== -->
+    <div class="banner">
+      <img src="bnar.gif" alt="MemeCoin banner">
+    </div>
+
+    <!-- ===== ЗАГОЛОВОК ===== -->
+    <header class="site-header">
+      <div class="logo">
+        <h1><span>MemeCoin</span> Insights</h1>
+      </div>
+      <div class="badge">
+        <i class="fas fa-rocket"></i> deep dive · 2025
+      </div>
+    </header>
+
+    <!-- ================= СТАТЬЯ 1 ================= -->
+    <section class="article" id="article-dogecoin"
+             data-title="Dogecoin & Shiba: The Original Meme Lords"
+             data-tag="origin story"
+             data-image="Dodge.jpg"
+             data-keywords="dogecoin shiba inu doge shib elon musk original meme lords origin underdog">
+      <div class="article-media">
+        <img src="Dodge.jpg" alt="Dogecoin and Shiba Inu">
+      </div>
+      <span class="article-tag">origin story</span>
+      <h2>Dogecoin & Shiba: The Original Meme Lords</h2>
+      <p>In 2013, Billy Markus and Jackson Palmer created Dogecoin as a joke — a parody of the booming cryptocurrency market. The Shiba Inu dog meme became its face, and a community of "shibes" formed around it. Nobody could have predicted that a joke coin would one day reach a market capitalization of over $80 billion.</p>
+      <h4>The rise of a meme empire</h4>
+      <p>For years Dogecoin remained a niche internet curiosity. That changed in 2021, when Elon Musk began tweeting about it, calling it "the people's crypto." The price skyrocketed, and Dogecoin became a household name. In its wake, Shiba Inu (SHIB) launched in 2020 as an "experiment" — and soon surpassed Dogecoin in market cap, briefly becoming the 11th largest cryptocurrency in the world.</p>
+      <h4>Why did it work?</h4>
+      <ul>
+        <li><strong>Community:</strong> Both coins have fiercely loyal, meme-driven communities.</li>
+        <li><strong>Low entry price:</strong> Anyone can buy millions of DOGE or SHIB for a few dollars.</li>
+        <li><strong>Narrative:</strong> "The underdog" story resonates with retail investors.</li>
+        <li><strong>Viral mechanics:</strong> Memes spread faster than fundamentals ever could.</li>
+      </ul>
+      <p>Today, Dogecoin and Shiba Inu are blue chips of the meme coin world. They paved the way for thousands of imitators — but none have matched their cultural impact.</p>
+    </section>
+
+    <!-- ================= СТАТЬЯ 2 ================= -->
+    <section class="article" id="article-pepe-unchained"
+             data-title="Pepe Unchained: The Layer-2 Frenzy"
+             data-tag="trending"
+             data-image="Layer-2.jpg"
+             data-keywords="pepe unchained layer-2 layer2 pepu ethereum presale staking bridge trending frog">
+      <div class="article-media">
+        <img src="Layer-2.jpg" alt="Pepe Unchained Layer-2">
+      </div>
+      <span class="article-tag">trending</span>
+      <h2>Pepe Unchained: The Layer-2 Frenzy</h2>
+      <p>Pepe Unchained (PEPU) is one of the most talked-about meme coin presales of 2024–2025. Unlike most meme coins that run on existing blockchains, PEPU is building its own Layer-2 network on Ethereum — promising faster transactions and lower fees.</p>
+      <h4>What makes it different?</h4>
+      <p>Most meme coins have zero utility. Pepe Unchained flips that narrative by offering a dedicated "Pepe Chain" — a Layer-2 solution designed specifically for meme coin trading. The presale raised over $60 million, a testament to the hype surrounding the project.</p>
+      <h4>Key features</h4>
+      <ul>
+        <li><strong>Pepe Chain:</strong> A dedicated Layer-2 for fast, cheap transactions.</li>
+        <li><strong>Staking rewards:</strong> Early investors can stake PEPU for high APY.</li>
+        <li><strong>Bridge:</strong> Users can bridge ETH to the Pepe Chain seamlessly.</li>
+        <li><strong>Community:</strong> A massive Discord and Twitter following drives the narrative.</li>
+      </ul>
+      <p>Critics warn that hype alone doesn't guarantee long-term value. But supporters argue Pepe Unchained represents the next evolution of meme coins — where virality meets real infrastructure.</p>
+    </section>
+
+    <!-- ================= СТАТЬЯ 3 ================= -->
+    <section class="article" id="article-solana"
+             data-title="WIF & BONK: Solana’s Meme Takeover"
+             data-tag="solana"
+             data-image="Solana.jpg"
+             data-keywords="wif bonk solana sol dogwifhat takeover degen speed low fees sol">
+      <div class="article-media">
+        <img src="Solana.jpg" alt="Solana WIF and BONK">
+      </div>
+      <span class="article-tag">solana</span>
+      <h2>WIF & BONK: Solana’s Meme Takeover</h2>
+      <p>Solana has become the unofficial home of meme coins in 2024–2025. Two names dominate: dogwifhat (WIF) and Bonk (BONK). Both started as community jokes, and both reached multi-billion dollar valuations.</p>
+      <h4>Why Solana?</h4>
+      <p>Solana's low transaction fees (often less than $0.01) and high speed make it perfect for meme coin trading. On Ethereum, a single swap can cost $20–$50 in gas fees — on Solana, it's essentially free. This attracted a new generation of degen traders.</p>
+      <h4>The rise of WIF</h4>
+      <p>dogwifhat launched in late 2023 as a simple meme: a Shiba Inu wearing a pink knitted hat. Within months, WIF became a top-30 cryptocurrency by market cap. Its community, known as the "WIF army," is one of the most active in crypto.</p>
+      <h4>Bonk: the Solana original</h4>
+      <p>Bonk launched in December 2022 as an airdrop to Solana users, aiming to revive the ecosystem after the FTX collapse. It worked — BONK became a symbol of Solana's comeback, and its price surged over 10,000% in 2023.</p>
+      <p>Together, WIF and BONK prove that meme coins are no longer an Ethereum-only phenomenon. Solana's speed and culture have made it the new capital of degen finance.</p>
+    </section>
+
+    <!-- ================= СТАТЬЯ 4 ================= -->
+    <section class="article" id="article-psychology"
+             data-title="The Psychology of Meme Coin Trading"
+             data-tag="psychology"
+             data-image="Psychology.jpg"
+             data-keywords="psychology trading fomo fear gambling dopamine emotion discipline risk brain">
+      <div class="article-media">
+        <img src="Psychology.jpg" alt="Meme coin trading psychology">
+      </div>
+      <span class="article-tag">psychology</span>
+      <h2>The Psychology of Meme Coin Trading</h2>
+      <p>Why do people pour money into coins with no fundamentals? The answer lies in psychology. Meme coin trading is driven by FOMO (fear of missing out), community belonging, and the thrill of gambling — all wrapped in a layer of internet culture.</p>
+      <h4>FOMO and the fear of missing out</h4>
+      <p>When a meme coin pumps 500% in a day, social media explodes with screenshots of life-changing gains. The fear of missing out kicks in, and traders ape in at the top — often right before the crash.</p>
+      <h4>Community and identity</h4>
+      <p>Holding a meme coin is like joining a tribe. Whether it's Dogecoin, Shiba, or Pepe, each coin has its own culture, inside jokes, and rituals. This sense of belonging is a powerful motivator — people hold coins not because of utility, but because they feel part of something bigger than themselves.</p>
+      <h4>The gambler's high</h4>
+      <p>Meme coin trading triggers the same dopamine response as gambling. The volatility — sometimes 50% swings in hours — creates an addictive loop. Experienced traders learn to manage this; beginners often don't.</p>
+      <ul>
+        <li><strong>FOMO:</strong> Buy when everyone is euphoric — usually the worst time.</li>
+        <li><strong>Loss aversion:</strong> Holding losers too long, hoping to break even.</li>
+        <li><strong>Herd mentality:</strong> Following the crowd without research.</li>
+        <li><strong>Overconfidence:</strong> Believing you can time the market perfectly.</li>
+      </ul>
+      <p>The takeaway? Successful meme coin trading requires emotional discipline and strict risk management. Treat it like entertainment, not an investment strategy.</p>
+    </section>
+
+    <!-- ================= СТАТЬЯ 5 ================= -->
+    <section class="article" id="article-base-friendtech"
+             data-title="Base & Friend.tech: Social Meme Finance"
+             data-tag="socialfi"
+             data-image="Friend.tech.jpg"
+             data-keywords="base friend.tech friendtech socialfi social meme finance coinbase layer2 keys">
+      <div class="article-media">
+        <img src="Friend.tech.jpg" alt="Base and Friend.tech">
+      </div>
+      <span class="article-tag">socialfi</span>
+      <h2>Base & Friend.tech: Social Meme Finance</h2>
+      <p>Base, Coinbase's Layer-2 network, has become a breeding ground for social tokens and community-driven memecoins. Combined with platforms like Friend.tech, it created a new wave of "socialfi" — where social influence itself becomes a tradable asset.</p>
+      <h4>What is Base?</h4>
+      <p>Base launched in August 2023 as a Layer-2 on Ethereum, backed by Coinbase. Low fees and easy onboarding made it an instant hit with degen traders. Within months, Base became the third-largest Layer-2 by total value locked.</p>
+      <h4>Friend.tech and social tokens</h4>
+      <p>Friend.tech let users buy "keys" tied to individual Twitter accounts. The price of a key rose as more people bought in, creating a market for social influence itself. Though the hype faded, the model inspired a wave of similar experiments.</p>
+      <h4>Community coins on Base</h4>
+      <p>Base spawned dozens of community-driven meme coins — many tied to specific creators, online communities, or cultural moments. Unlike traditional meme coins, these tokens blurred the line between social capital and financial speculation.</p>
+      <ul>
+        <li><strong>Low fees:</strong> Base transactions cost fractions of a cent.</li>
+        <li><strong>Coinbase integration:</strong> Easy fiat onboarding for millions of users.</li>
+        <li><strong>Social layer:</strong> Tokens tied to real identities and communities.</li>
+        <li><strong>Experimental:</strong> A playground for new forms of on-chain social finance.</li>
+      </ul>
+      <p>Whether Base's socialfi wave becomes a lasting trend or a passing fad, it has already reshaped how we think about community, influence, and value on the blockchain.</p>
+    </section>
+
+    <!-- ================= СТАТЬЯ 6 ================= -->
+    <section class="article" id="article-pepe-season"
+             data-title="Pepe & Meme Coin Season"
+             data-tag="culture"
+             data-image="Season.jpg"
+             data-keywords="pepe meme coin season culture supercycle frog 4chan reddit viral attention">
+      <div class="article-media">
+        <img src="Season.jpg" alt="Pepe meme coin season">
+      </div>
+      <span class="article-tag">culture</span>
+      <h2>Pepe & Meme Coin Season</h2>
+      <p>In April 2023, a token called Pepe (PEPE) launched on Ethereum with no presale, no roadmap, and no utility. Within weeks, it reached a multi-billion dollar market cap, triggering the biggest meme coin season since 2021.</p>
+      <h4>The frog that broke the internet</h4>
+      <p>Pepe the Frog was already one of the most recognizable internet memes. Its crypto version tapped into a massive online culture — 4chan, Reddit, Twitter — and turned internet fame into market cap. Early buyers turned $1,000 into millions.</p>
+      <h4>The meme coin supercycle</h4>
+      <p>Pepe's success ignited a chain reaction. Dozens of copycat tokens appeared: Pepe 2.0, Pepe Unchained, Based Pepe, and countless others. Some pumped and dumped within hours; a few survived. The total meme coin market cap briefly surpassed $120 billion.</p>
+      <h4>What it means for the future</h4>
+      <ul>
+        <li><strong>Culture is capital:</strong> Memes can generate real economic value.</li>
+        <li><strong>Community > utility:</strong> A strong community can outperform a technical roadmap.</li>
+        <li><strong>Volatility is extreme:</strong> Most meme coins will go to zero.</li>
+        <li><strong>The cycle continues:</strong> Every bull market spawns a new meme coin wave.</li>
+      </ul>
+      <p>Pepe proved that in crypto, attention is the scarcest resource. Whether this is healthy for the industry or a sign of speculation gone wild — that debate is far from over.</p>
+    </section>
+
+    <!-- ===== KEY TAKEAWAYS ===== -->
+    <div class="takeaways">
+      <div class="takeaways-inner">
+        <div class="takeaways-title">
+          <i class="fas fa-coins"></i>
+          <span>Key takeaways</span>
+        </div>
+        <div class="takeaways-stats">
+          <span><i class="fas fa-chart-line"></i> Market cap > $120B</span>
+          <span><i class="fas fa-users"></i> 90% community-driven</span>
+          <span><i class="fas fa-fire"></i> 24/7 volatility</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ФУТЕР ===== -->
+    <footer class="site-footer">
+      <span><i class="fas fa-cube"></i> MemeCoin Insights</span>
+      <div class="creator-badge">
+        <i class="fas fa-feather-alt"></i> Created by <strong>Hubert</strong>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    /* ========== ЧАСТИЦЫ ========== */
+    (function() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 65;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+
+        const size = Math.random() * 14 + 4;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+
+        const duration = Math.random() * 32 + 18;
+        particle.style.animationDuration = duration + 's';
+
+        const delay = Math.random() * -40;
+        particle.style.animationDelay = delay + 's';
+
+        particle.style.opacity = Math.random() * 0.5 + 0.5;
+
+        particlesContainer.appendChild(particle);
+      }
+    })();
+
+    /* ========== ПОИСК ПО СТАТЬЯМ ========== */
+    (function() {
+      const searchInput = document.getElementById('searchInput');
+      const searchClear = document.getElementById('searchClear');
+      const suggestionsBox = document.getElementById('suggestions');
+
+      // Собираем все статьи со страницы в массив объектов
+      const articles = Array.from(document.querySelectorAll('.article')).map(el => ({
+        id: el.id,
+        title: el.dataset.title || el.querySelector('h2').textContent.trim(),
+        tag: el.dataset.tag || '',
+        image: el.dataset.image || '',
+        keywords: (el.dataset.keywords || '').toLowerCase(),
+        element: el
+      }));
+
+      let selectedIndex = -1;
+      let currentSuggestions = [];
+
+      // Подсветка совпавшей части строки
+      function highlight(text, query) {
+        if (!query) return text;
+        const idx = text.toLowerCase().indexOf(query.toLowerCase());
+        if (idx === -1) return text;
+        const before = text.slice(0, idx);
+        const match = text.slice(idx, idx + query.length);
+        const after = text.slice(idx + query.length);
+        return before + '<mark>' + match + '</mark>' + after;
+      }
+
+      // Фильтр статей по запросу
+      function filterArticles(query) {
+        const q = query.trim().toLowerCase();
+        if (!q) return [];
+
+        return articles
+          .map(a => {
+            const titleLower = a.title.toLowerCase();
+            const tagLower = a.tag.toLowerCase();
+            let score = 0;
+
+            if (titleLower.startsWith(q)) score += 100;
+            if (titleLower.includes(q)) score += 50;
+            if (tagLower.includes(q)) score += 30;
+            if (a.keywords.includes(q)) score += 20;
+
+            // Отдельные слова из запроса
+            q.split(/\s+/).forEach(word => {
+              if (word && a.keywords.includes(word)) score += 5;
+            });
+
+            return { ...a, score };
+          })
+          .filter(a => a.score > 0)
+          .sort((a, b) => b.score - a.score);
+      }
+
+      // Отрисовка подсказок
+      function renderSuggestions(query) {
+        currentSuggestions = filterArticles(query);
+        selectedIndex = -1;
+
+        if (!query.trim()) {
+          suggestionsBox.classList.remove('active');
+          suggestionsBox.innerHTML = '';
+          return;
+        }
+
+        if (currentSuggestions.length === 0) {
+          suggestionsBox.innerHTML = `
+            <div class="suggestion-empty">
+              <i class="fas fa-search-minus"></i>
+              No articles found for "<strong>${escapeHtml(query)}</strong>"
+            </div>`;
+          suggestionsBox.classList.add('active');
+          return;
+        }
+
+        suggestionsBox.innerHTML = currentSuggestions.map((a, i) => `
+          <div class="suggestion-item" data-index="${i}" data-id="${a.id}">
+            <div class="suggestion-thumb">
+              <img src="${a.image}" alt="" onerror="this.style.display='none'">
+            </div>
+            <div class="suggestion-info">
+              <div class="suggestion-title">${highlight(a.title, query)}</div>
+              <div class="suggestion-tag">${a.tag}</div>
+            </div>
+            <i class="fas fa-arrow-right suggestion-arrow"></i>
+          </div>
+        `).join('');
+
+        suggestionsBox.classList.add('active');
+
+        // Обработчики кликов по подсказкам
+        suggestionsBox.querySelectorAll('.suggestion-item').forEach(item => {
+          item.addEventListener('mouseenter', () => {
+            selectedIndex = parseInt(item.dataset.index, 10);
+            updateSelected();
+          });
+          item.addEventListener('click', () => {
+            goToArticle(item.dataset.id);
+          });
+        });
+      }
+
+      function updateSelected() {
+        const items = suggestionsBox.querySelectorAll('.suggestion-item');
+        items.forEach((el, i) => {
+          el.classList.toggle('selected', i === selectedIndex);
+        });
+      }
+
+      function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      // Переход к статье
+      function goToArticle(id) {
+        const target = document.getElementById(id);
+        if (!target) return;
+
+        // Прячем подсказки
+        suggestionsBox.classList.remove('active');
+        suggestionsBox.innerHTML = '';
+        searchInput.blur();
+
+        // Скролл
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Мигающая подсветка
+        target.classList.remove('highlight');
+        void target.offsetWidth;
+        target.classList.add('highlight');
+        setTimeout(() => target.classList.remove('highlight'), 2300);
+      }
+
+      // Событие ввода
+      searchInput.addEventListener('input', (e) => {
+        const value = e.target.value;
+        searchClear.classList.toggle('visible', value.length > 0);
+        renderSuggestions(value);
+      });
+
+      // Клавиатура: стрелки + Enter + Esc
+      searchInput.addEventListener('keydown', (e) => {
+        const items = suggestionsBox.querySelectorAll('.suggestion-item');
+
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (items.length === 0) return;
+          selectedIndex = (selectedIndex + 1) % items.length;
+          updateSelected();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (items.length === 0) return;
+          selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+          updateSelected();
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          if (selectedIndex >= 0 && currentSuggestions[selectedIndex]) {
+            goToArticle(currentSuggestions[selectedIndex].id);
+          } else if (currentSuggestions.length > 0) {
+            goToArticle(currentSuggestions[0].id);
+          } else {
+            // Если ничего не найдено — небольшая тряска поля
+            searchInput.style.transition = 'transform 0.1s';
+            searchInput.style.transform = 'translateX(-4px)';
+            setTimeout(() => searchInput.style.transform = 'translateX(4px)', 100);
+            setTimeout(() => searchInput.style.transform = 'translateX(0)', 200);
+          }
+        } else if (e.key === 'Escape') {
+          suggestionsBox.classList.remove('active');
+          searchInput.blur();
+        }
+      });
+
+      // Очистка
+      searchClear.addEventListener('click', () => {
+        searchInput.value = '';
+        searchClear.classList.remove('visible');
+        suggestionsBox.classList.remove('active');
+        suggestionsBox.innerHTML = '';
+        searchInput.focus();
+      });
+
+      // Клик вне — закрыть подсказки
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-wrap')) {
+          suggestionsBox.classList.remove('active');
+        }
+      });
+
+      // Фокус — показать, если есть текст
+      searchInput.addEventListener('focus', () => {
+        if (searchInput.value.trim()) {
+          renderSuggestions(searchInput.value);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
