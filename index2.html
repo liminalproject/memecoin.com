@@ -2,22 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#d9e2f0">
   <title>MemeCoin Insights · glass articles</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
       margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
 
     body {
       min-height: 100vh;
       background: radial-gradient(circle at 30% 10%, #f0f4ff 0%, #d9e2f0 100%);
       background-attachment: fixed;
       padding: 2rem 1.5rem;
+      padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
       position: relative;
       overflow-x: hidden;
       display: flex;
@@ -37,6 +43,7 @@
       border-radius: 50%;
       box-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 0 0 20px rgba(200, 220, 255, 0.6);
       animation: floatParticle linear infinite;
+      will-change: transform, opacity;
     }
 
     @keyframes floatParticle {
@@ -177,6 +184,7 @@
     .search-box i.fa-search {
       color: #3f5e8c;
       font-size: 1rem;
+      flex-shrink: 0;
     }
 
     .search-box input {
@@ -188,6 +196,10 @@
       color: #0f1f38;
       padding: 0.35rem 0;
       font-weight: 500;
+      min-width: 0;
+      font-family: inherit;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     .search-box input::placeholder {
@@ -204,6 +216,7 @@
       align-items: center; justify-content: center;
       color: #3f5e8c; font-size: 0.75rem;
       transition: background 0.2s;
+      flex-shrink: 0;
     }
     .search-clear:hover { background: rgba(255, 255, 255, 0.95); }
     .search-clear.visible { display: flex; }
@@ -221,10 +234,11 @@
       border: 1px solid rgba(255, 255, 255, 0.9);
       box-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.18);
       padding: 0.6rem;
-      max-height: 400px;
+      max-height: min(400px, 55vh);
       overflow-y: auto;
       display: none;
       animation: suggIn 0.2s ease;
+      -webkit-overflow-scrolling: touch;
     }
 
     .suggestions.active { display: block; }
@@ -262,9 +276,7 @@
       width: 100%; height: 100%; object-fit: cover; display: block;
     }
 
-    .suggestion-info {
-      flex: 1; min-width: 0;
-    }
+    .suggestion-info { flex: 1; min-width: 0; }
 
     .suggestion-title {
       font-size: 0.95rem; font-weight: 700;
@@ -289,6 +301,7 @@
     .suggestion-arrow {
       color: #3f5e8c; font-size: 0.85rem;
       opacity: 0.6;
+      flex-shrink: 0;
     }
 
     .suggestion-empty {
@@ -332,6 +345,7 @@
       display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
       margin-bottom: 2rem; padding-bottom: 1rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+      gap: 0.8rem;
     }
 
     .logo h1 {
@@ -350,6 +364,7 @@
       border: 1px solid rgba(255, 255, 255, 0.9);
       font-weight: 500; color: #1e2f4a;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); font-size: 0.9rem;
+      white-space: nowrap;
     }
     .badge i { color: #3f5e8c; margin-right: 6px; }
 
@@ -366,10 +381,12 @@
       scroll-margin-top: 2rem;
     }
 
-    .article:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 30px 45px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
-      background: rgba(255, 255, 255, 0.45);
+    @media (hover: hover) {
+      .article:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 30px 45px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+        background: rgba(255, 255, 255, 0.45);
+      }
     }
 
     .article.highlight {
@@ -484,52 +501,249 @@
       font-weight: 700;
     }
 
-    /* ========== АДАПТИВ ========== */
+    /* ================================================
+       ПЛАНШЕТЫ (max-width: 1100px)
+       ================================================ */
     @media (max-width: 1100px) {
-      .telegram-sidebar { right: 0.6rem; padding: 1rem 0.7rem; }
+      .telegram-sidebar {
+        right: 0.6rem;
+        padding: 1rem 0.7rem;
+      }
       .telegram-sidebar a { width: 40px; height: 40px; font-size: 1.1rem; }
     }
 
-    @media (max-width: 680px) {
-      body { padding: 1rem 0.8rem; }
-      .glass-wrapper { padding: 1.4rem 1rem; border-radius: 32px; }
-      .banner { border-radius: 22px; margin-bottom: 1.4rem; }
-      .banner img { max-height: 200px; }
-      .logo h1 { font-size: 1.6rem; }
-      .article { padding: 1.4rem 1.1rem 1.6rem; border-radius: 24px; }
-      .article-media { height: 200px; }
-      .article h2 { font-size: 1.4rem; }
-      .article p { font-size: 0.97rem; }
-      .takeaways { padding: 1.2rem; }
-      .takeaways-title span { font-size: 1.1rem; }
-      .site-header { margin-bottom: 1.4rem; }
+    /* ================================================
+       МОБИЛЬНЫЕ (max-width: 768px)
+       ================================================ */
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem 0.75rem;
+        padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+        align-items: stretch;
+      }
 
-      .search-box { padding: 0.6rem 1.1rem; }
-      .search-box input { font-size: 0.95rem; }
-      .suggestion-thumb { width: 44px; height: 44px; }
+      .glass-wrapper {
+        padding: 1.2rem 0.9rem;
+        border-radius: 28px;
+        max-width: 100%;
+      }
+
+      /* Строка поиска */
+      .search-wrap { margin-bottom: 1.2rem; }
+      .search-box {
+        padding: 0.65rem 1.1rem;
+        gap: 0.6rem;
+        border-radius: 50px;
+      }
+      .search-box input { font-size: 0.95rem; padding: 0.3rem 0; }
+      .search-box i.fa-search { font-size: 0.95rem; }
+      .search-clear { width: 26px; height: 26px; font-size: 0.7rem; }
+
+      .suggestions {
+        border-radius: 20px;
+        max-height: 60vh;
+        padding: 0.5rem;
+      }
+      .suggestion-item {
+        padding: 0.6rem 0.7rem;
+        gap: 0.75rem;
+        border-radius: 14px;
+      }
+      .suggestion-thumb { width: 44px; height: 44px; border-radius: 12px; }
       .suggestion-title { font-size: 0.88rem; }
+      .suggestion-tag { font-size: 0.66rem; }
+      .suggestion-arrow { display: none; }
 
+      /* Баннер */
+      .banner {
+        border-radius: 20px;
+        margin-bottom: 1.2rem;
+      }
+      .banner img { max-height: 180px; }
+
+      /* Заголовок */
+      .site-header {
+        margin-bottom: 1.2rem;
+        padding-bottom: 0.9rem;
+      }
+      .logo h1 { font-size: 1.55rem; }
+      .badge {
+        padding: 0.4rem 1rem;
+        font-size: 0.78rem;
+      }
+      .badge i { margin-right: 4px; }
+
+      /* Статьи */
+      .article {
+        padding: 1.3rem 1rem 1.5rem;
+        border-radius: 22px;
+        margin-bottom: 1.4rem;
+        scroll-margin-top: 1rem;
+      }
+      .article-media {
+        height: 190px;
+        border-radius: 18px;
+        margin-bottom: 1rem;
+      }
+      .article-tag {
+        padding: 0.3rem 0.9rem;
+        font-size: 0.68rem;
+        margin-bottom: 0.7rem;
+      }
+      .article h2 {
+        font-size: 1.32rem;
+        margin-bottom: 0.8rem;
+        line-height: 1.3;
+      }
+      .article p {
+        font-size: 0.94rem;
+        line-height: 1.7;
+        margin-bottom: 0.9rem;
+      }
+      .article h4 {
+        font-size: 1.05rem;
+        margin: 1.2rem 0 0.5rem;
+      }
+      .article ul {
+        margin-left: 1.1rem;
+        font-size: 0.94rem;
+        line-height: 1.7;
+      }
+
+      /* Key takeaways */
+      .takeaways {
+        padding: 1.1rem 1rem;
+        border-radius: 20px;
+      }
+      .takeaways-inner { gap: 0.7rem; }
+      .takeaways-title { gap: 8px; }
+      .takeaways-title i { font-size: 1.4rem; }
+      .takeaways-title span { font-size: 1.05rem; }
+      .takeaways-stats { gap: 0.5rem; }
+      .takeaways-stats span {
+        padding: 0.28rem 0.85rem;
+        font-size: 0.78rem;
+      }
+
+      /* Футер */
+      .site-footer {
+        margin-top: 1.4rem;
+        padding-top: 1.1rem;
+        gap: 0.9rem;
+        font-size: 0.82rem;
+      }
+      .creator-badge {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.88rem;
+        gap: 6px;
+      }
+
+      /* Боковая панель — внизу горизонтально */
       .telegram-sidebar {
-        top: auto; bottom: 0.8rem; right: 50%;
+        top: auto;
+        bottom: calc(0.9rem + env(safe-area-inset-bottom, 0px));
+        right: 50%;
         transform: translateX(50%);
         flex-direction: row;
-        padding: 0.7rem 1rem;
+        padding: 0.65rem 0.9rem;
         border-radius: 60px;
-        gap: 0.6rem;
+        gap: 0.55rem;
+        box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
       }
       .telegram-sidebar .sidebar-label {
         writing-mode: horizontal-tb;
         transform: none;
-        margin: 0 0.4rem 0 0;
-        font-size: 0.65rem;
+        margin: 0 0.35rem 0 0;
+        font-size: 0.62rem;
+        letter-spacing: 1.5px;
       }
-      .telegram-sidebar a { width: 38px; height: 38px; font-size: 1rem; }
+      .telegram-sidebar a {
+        width: 40px;
+        height: 40px;
+        font-size: 1.05rem;
+      }
       .telegram-sidebar a::after { display: none; }
     }
 
-    ::-webkit-scrollbar { width: 8px; }
+    /* ================================================
+       МАЛЕНЬКИЕ ТЕЛЕФОНЫ (max-width: 400px)
+       ================================================ */
+    @media (max-width: 400px) {
+      body { padding: 0.75rem 0.55rem; padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px)); }
+
+      .glass-wrapper { padding: 1rem 0.75rem; border-radius: 24px; }
+
+      .logo h1 { font-size: 1.35rem; }
+      .badge { padding: 0.35rem 0.85rem; font-size: 0.72rem; }
+      .badge i { display: none; }
+
+      .article { padding: 1.1rem 0.85rem 1.3rem; }
+      .article-media { height: 160px; }
+      .article h2 { font-size: 1.18rem; }
+      .article p { font-size: 0.9rem; }
+
+      .suggestion-thumb { width: 40px; height: 40px; border-radius: 10px; }
+      .suggestion-title { font-size: 0.84rem; }
+      .suggestion-tag { display: none; }
+
+      .takeaways-title span { font-size: 0.98rem; }
+      .takeaways-title i { font-size: 1.25rem; }
+      .takeaways-stats span { font-size: 0.72rem; padding: 0.25rem 0.7rem; }
+
+      .telegram-sidebar { padding: 0.55rem 0.75rem; gap: 0.45rem; }
+      .telegram-sidebar .sidebar-label { font-size: 0.58rem; margin-right: 0.2rem; }
+      .telegram-sidebar a { width: 36px; height: 36px; font-size: 0.95rem; }
+    }
+
+    /* ================================================
+       LANDSCAPE на телефонах (невысокие экраны)
+       ================================================ */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .telegram-sidebar {
+        top: 50%;
+        bottom: auto;
+        right: 0.5rem;
+        left: auto;
+        transform: translateY(-50%);
+        flex-direction: column;
+        padding: 0.7rem 0.6rem;
+      }
+      .telegram-sidebar .sidebar-label {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        margin: 0.2rem 0 0.4rem;
+      }
+      .banner img { max-height: 140px; }
+      .article-media { height: 150px; }
+      body { padding-bottom: 1rem; }
+    }
+
+    /* ================================================
+       TOUCH-устройства: убираем hover-эффекты
+       ================================================ */
+    @media (hover: none) {
+      .telegram-sidebar a:hover { transform: none; }
+      .telegram-sidebar a:hover::after { opacity: 0; }
+    }
+
+    /* ================================================
+       Reduce motion — уважаем настройки пользователя
+       ================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .particle { animation: none; opacity: 0.4; }
+      .article { transition: none; }
+      .suggestions { animation: none; }
+      .article.highlight { animation: none; }
+    }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: rgba(220, 230, 250, 0.4); border-radius: 10px; }
     ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.8); border-radius: 10px; border: 1px solid rgba(180, 200, 240, 0.6); }
+
+    @media (max-width: 768px) {
+      ::-webkit-scrollbar { width: 4px; height: 4px; }
+    }
   </style>
 </head>
 <body>
@@ -556,7 +770,7 @@
     <div class="search-wrap">
       <div class="search-box">
         <i class="fas fa-search"></i>
-        <input type="text" id="searchInput" placeholder="Search articles… (try: Solana, Pepe, Doge, Psychology)" autocomplete="off">
+        <input type="text" id="searchInput" placeholder="Search articles… (try: Solana, Pepe, Doge)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         <button class="search-clear" id="searchClear" aria-label="Clear search">
           <i class="fas fa-times"></i>
         </button>
@@ -586,7 +800,7 @@
              data-image="Dodge.jpg"
              data-keywords="dogecoin shiba inu doge shib elon musk original meme lords origin underdog">
       <div class="article-media">
-        <img src="Dodge.jpg" alt="Dogecoin and Shiba Inu">
+        <img src="Dodge.jpg" alt="Dogecoin and Shiba Inu" loading="lazy">
       </div>
       <span class="article-tag">origin story</span>
       <h2>Dogecoin & Shiba: The Original Meme Lords</h2>
@@ -610,7 +824,7 @@
              data-image="Layer-2.jpg"
              data-keywords="pepe unchained layer-2 layer2 pepu ethereum presale staking bridge trending frog">
       <div class="article-media">
-        <img src="Layer-2.jpg" alt="Pepe Unchained Layer-2">
+        <img src="Layer-2.jpg" alt="Pepe Unchained Layer-2" loading="lazy">
       </div>
       <span class="article-tag">trending</span>
       <h2>Pepe Unchained: The Layer-2 Frenzy</h2>
@@ -632,9 +846,9 @@
              data-title="WIF & BONK: Solana’s Meme Takeover"
              data-tag="solana"
              data-image="Solana.jpg"
-             data-keywords="wif bonk solana sol dogwifhat takeover degen speed low fees sol">
+             data-keywords="wif bonk solana sol dogwifhat takeover degen speed low fees">
       <div class="article-media">
-        <img src="Solana.jpg" alt="Solana WIF and BONK">
+        <img src="Solana.jpg" alt="Solana WIF and BONK" loading="lazy">
       </div>
       <span class="article-tag">solana</span>
       <h2>WIF & BONK: Solana’s Meme Takeover</h2>
@@ -655,7 +869,7 @@
              data-image="Psychology.jpg"
              data-keywords="psychology trading fomo fear gambling dopamine emotion discipline risk brain">
       <div class="article-media">
-        <img src="Psychology.jpg" alt="Meme coin trading psychology">
+        <img src="Psychology.jpg" alt="Meme coin trading psychology" loading="lazy">
       </div>
       <span class="article-tag">psychology</span>
       <h2>The Psychology of Meme Coin Trading</h2>
@@ -682,7 +896,7 @@
              data-image="Friend.tech.jpg"
              data-keywords="base friend.tech friendtech socialfi social meme finance coinbase layer2 keys">
       <div class="article-media">
-        <img src="Friend.tech.jpg" alt="Base and Friend.tech">
+        <img src="Friend.tech.jpg" alt="Base and Friend.tech" loading="lazy">
       </div>
       <span class="article-tag">socialfi</span>
       <h2>Base & Friend.tech: Social Meme Finance</h2>
@@ -709,7 +923,7 @@
              data-image="Season.jpg"
              data-keywords="pepe meme coin season culture supercycle frog 4chan reddit viral attention">
       <div class="article-media">
-        <img src="Season.jpg" alt="Pepe meme coin season">
+        <img src="Season.jpg" alt="Pepe meme coin season" loading="lazy">
       </div>
       <span class="article-tag">culture</span>
       <h2>Pepe & Meme Coin Season</h2>
@@ -753,10 +967,17 @@
   </div>
 
   <script>
-    /* ========== ЧАСТИЦЫ ========== */
+    /* ========== ЧАСТИЦЫ (адаптивное количество) ========== */
     (function() {
       const particlesContainer = document.getElementById('particles');
-      const particleCount = 65;
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Меньше частиц на мобильных / при reduce-motion
+      let particleCount = 65;
+      if (prefersReducedMotion) particleCount = 15;
+      else if (isMobile) particleCount = 28;
+      else if (window.innerWidth < 1100) particleCount = 45;
 
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
@@ -787,7 +1008,6 @@
       const searchClear = document.getElementById('searchClear');
       const suggestionsBox = document.getElementById('suggestions');
 
-      // Собираем все статьи со страницы в массив объектов
       const articles = Array.from(document.querySelectorAll('.article')).map(el => ({
         id: el.id,
         title: el.dataset.title || el.querySelector('h2').textContent.trim(),
@@ -800,7 +1020,6 @@
       let selectedIndex = -1;
       let currentSuggestions = [];
 
-      // Подсветка совпавшей части строки
       function highlight(text, query) {
         if (!query) return text;
         const idx = text.toLowerCase().indexOf(query.toLowerCase());
@@ -811,7 +1030,6 @@
         return before + '<mark>' + match + '</mark>' + after;
       }
 
-      // Фильтр статей по запросу
       function filterArticles(query) {
         const q = query.trim().toLowerCase();
         if (!q) return [];
@@ -827,7 +1045,6 @@
             if (tagLower.includes(q)) score += 30;
             if (a.keywords.includes(q)) score += 20;
 
-            // Отдельные слова из запроса
             q.split(/\s+/).forEach(word => {
               if (word && a.keywords.includes(word)) score += 5;
             });
@@ -838,7 +1055,6 @@
           .sort((a, b) => b.score - a.score);
       }
 
-      // Отрисовка подсказок
       function renderSuggestions(query) {
         currentSuggestions = filterArticles(query);
         selectedIndex = -1;
@@ -874,12 +1090,16 @@
 
         suggestionsBox.classList.add('active');
 
-        // Обработчики кликов по подсказкам
         suggestionsBox.querySelectorAll('.suggestion-item').forEach(item => {
           item.addEventListener('mouseenter', () => {
             selectedIndex = parseInt(item.dataset.index, 10);
             updateSelected();
           });
+          // touchstart для быстрого отклика на мобильных
+          item.addEventListener('touchstart', () => {
+            selectedIndex = parseInt(item.dataset.index, 10);
+            updateSelected();
+          }, { passive: true });
           item.addEventListener('click', () => {
             goToArticle(item.dataset.id);
           });
@@ -899,34 +1119,31 @@
         return div.innerHTML;
       }
 
-      // Переход к статье
       function goToArticle(id) {
         const target = document.getElementById(id);
         if (!target) return;
 
-        // Прячем подсказки
         suggestionsBox.classList.remove('active');
         suggestionsBox.innerHTML = '';
         searchInput.blur();
 
-        // Скролл
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Небольшая задержка для мобильных — чтобы клавиатура успела закрыться
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 60);
 
-        // Мигающая подсветка
         target.classList.remove('highlight');
         void target.offsetWidth;
         target.classList.add('highlight');
         setTimeout(() => target.classList.remove('highlight'), 2300);
       }
 
-      // Событие ввода
       searchInput.addEventListener('input', (e) => {
         const value = e.target.value;
         searchClear.classList.toggle('visible', value.length > 0);
         renderSuggestions(value);
       });
 
-      // Клавиатура: стрелки + Enter + Esc
       searchInput.addEventListener('keydown', (e) => {
         const items = suggestionsBox.querySelectorAll('.suggestion-item');
 
@@ -947,7 +1164,6 @@
           } else if (currentSuggestions.length > 0) {
             goToArticle(currentSuggestions[0].id);
           } else {
-            // Если ничего не найдено — небольшая тряска поля
             searchInput.style.transition = 'transform 0.1s';
             searchInput.style.transform = 'translateX(-4px)';
             setTimeout(() => searchInput.style.transform = 'translateX(4px)', 100);
@@ -959,7 +1175,6 @@
         }
       });
 
-      // Очистка
       searchClear.addEventListener('click', () => {
         searchInput.value = '';
         searchClear.classList.remove('visible');
@@ -968,19 +1183,26 @@
         searchInput.focus();
       });
 
-      // Клик вне — закрыть подсказки
       document.addEventListener('click', (e) => {
         if (!e.target.closest('.search-wrap')) {
           suggestionsBox.classList.remove('active');
         }
       });
 
-      // Фокус — показать, если есть текст
       searchInput.addEventListener('focus', () => {
         if (searchInput.value.trim()) {
           renderSuggestions(searchInput.value);
         }
       });
+
+      // Закрываем подсказки при скролле на мобильных
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        window.addEventListener('scroll', () => {
+          if (suggestionsBox.classList.contains('active')) {
+            suggestionsBox.classList.remove('active');
+          }
+        }, { passive: true });
+      }
     })();
   </script>
 </body>
